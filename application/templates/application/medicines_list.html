@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% extends 'application/base.html' %}
+{% load static %}
+
+{% block title %}Medicine List{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <h2 class="mb-4 text-center text-primary">Available Medicines</h2>
+
+  {% if medicines %}
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+    {% for medicine in medicines %}
+    <div class="col">
+      <div class="card h-100 shadow-sm border-0">
+        {% if medicine.image %}
+        <img src="{{ medicine.image.url }}" class="card-img-top rounded-top" alt="{{ medicine.name }}">
+        {% endif %}
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title text-success">{{ medicine.name }}</h5>
+          <p class="card-text small text-muted">{{ medicine.description|default:"No description available." }}</p>
+          <ul class="list-unstyled mb-3">
+            <li><strong>Price:</strong> €{{ medicine.sell_price }}</li>
+            <li><strong>Stock:</strong> {{ medicine.in_stock_strip }} strips</li>
+          </ul>
+          <a href="{% url 'add_to_cart' medicine.id %}" class="btn btn-outline-success mt-auto w-100">🛒 Add to Cart</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="alert alert-warning text-center mt-4">
+    No medicines available at the moment. Please check back later.
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

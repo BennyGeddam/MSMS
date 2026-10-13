@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+{% extends 'application/base.html' %}
+{% load static %}
+
+{% block title %}Order Confirmed{% endblock %}
+
+{% block content %}
+<div class="container my-5 text-center">
+    <h1 class="display-4 text-success">Order Confirmed</h1>
+    <p class="lead mt-4">Thank you for your purchase.</p>
+    <a href="{% url 'home' %}" class="btn btn-primary mt-3">Return to Home</a>
+</div>
+{% endblock %}

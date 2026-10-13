@@ -1,0 +1,7 @@
+# Test /api/company-bank/ Endpoint
+GET http://127.0.0.1:8000/api/company-bank/
+
+###
+
+# Test /api/company/ Endpoint
+GET http://127.0.0.1:8000/api/company/

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% extends "application/base.html" %}
+{% load static %}
+
+{% block title %}Home - Medical Store Management{% endblock %}
+
+{% block content %}
+
+    <div class="container text-center">
+        <h1 class="text-white animate__animated animate__fadeInDown">Welcome to Medical Store Management</h1>
+        <p class="text-white lead animate__animated animate__fadeInUp">
+            Your one-stop solution to browse, buy medicines &amp; manage orders easily.
+        </p>
+        <a href="{% url 'medicines_list' %}" class="btn btn-primary btn-lg animate__animated animate__zoomIn">Browse Products</a>
+    </div>
+<section class="features-section py-10">
+    <div class="container">
+        <div class="row text-center">
+
+            <div class="col-md-6 mb-5">
+                <div class="card h-300 shadow-sm p-4 animate__animated animate__fadeInUp">
+                    <i class="material-icons" style="font-size:48px; color:#007bff;">local_pharmacy</i>
+                    <h3 class="mt-3">Wide Range of Medicines</h3>
+                    <p class="text-muted">Explore a comprehensive selection from trusted manufacturers.</p>
+                </div>
+            </div>
+            <div class="col-md-6 mb-5">
+                <div class="card h-300 shadow-sm p-4 animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+                    <i class="material-icons" style="font-size:48px; color:#28a745;">shopping_cart</i>
+                    <h3 class="mt-3">Easy Checkout</h3>
+                    <p class="text-muted">Fast, secure &amp; seamless checkout process at your fingertips.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

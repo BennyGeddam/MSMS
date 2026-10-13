@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Online Pharmacy Store{% endblock %}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://x23328231-static.s3.amazonaws.com/static/applications/css/styles.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    body {
+      padding-top: 7rem;
+    }
+
+    #movie-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+      background-color: #4fdaf9;
+      color: #000;
+      border: none;
+      border-radius: 50px;
+      padding: 10px 15px;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      cursor: pointer;
+    }
+
+    #movie-drawer {
+      position: fixed;
+      bottom: 70px;
+      right: 20px;
+      z-index: 9999;
+      width: 300px;
+      background-color: #e8f627;
+      border: 1px solid #ccc;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      padding: 15px;
+      font-size: 0.9rem;
+      display: none;
+    }
+  </style>
+</head>
+<body class="theme-red">
+  <canvas class="background"></canvas>
+
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-green border-bottom fixed-top shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-primary" href="{% url 'home' %}"> Pharmacy Store</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active fw-bold text-primary{% endif %}" href="{% url 'home' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.url_name == 'medicines_list' %}active fw-bold text-primary{% endif %}" href="{% url 'medicines_list' %}">Medicines</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.url_name == 'cart' %}active fw-bold text-primary{% endif %}" href="{% url 'cart' %}">Basket</a>
+          </li>
+          {% if request.user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.url_name == 'addCustomerRequest' %}active fw-bold text-primary{% endif %}" href="{% url 'addCustomerRequest' %}">Request</a>
+          </li>
+          {% endif %}
+          {% if request.user.is_authenticated and request.user.is_staff %}
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active fw-bold text-primary{% endif %}" href="{% url 'dashboard' %}">Dashboard</a>
+          </li>
+          {% endif %}
+          {% if request.user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+  <main class="main-content">
+    <div class="container-fluid py-4">
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+
+  <button id="movie-toggle">🎬 Movie?</button>
+
+
+  <div id="movie-drawer">
+    <form id="movieForm">
+      <label for="mood">🎭 Mood</label>
+      <select id="mood" name="mood" class="form-control mb-2" required>
+        <option value="happy">😊 Happy</option>
+        <option value="sad">😢 Sad</option>
+        <option value="neutral">😐 Neutral</option>
+      </select>
+
+      <label for="time_of_day">⏰ Time of Day</label>
+      <select id="time_of_day" name="time_of_day" class="form-control mb-2" required>
+        <option value="morning">🌅 Morning</option>
+        <option value="afternoon">🌤 Afternoon</option>
+        <option value="evening">🌙 Evening</option>
+      </select>
+
+      <label for="watching_with">👥 With</label>
+      <select id="watching_with" name="watching_with" class="form-control mb-2" required>
+        <option value="alone">🙋 Alone</option>
+        <option value="family">👨‍👩‍👧 Family</option>
+        <option value="friends">🎉 Friends</option>
+      </select>
+
+      <button type="submit" class="btn btn-warning btn-sm mt-2 w-100">🎬 Suggest</button>
+    </form>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.getElementById("movie-toggle").addEventListener("click", () => {
+      const drawer = document.getElementById("movie-drawer");
+      drawer.style.display = drawer.style.display === "none" ? "block" : "none";
+    });
+
+    document.getElementById("movieForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const mood = document.getElementById("mood").value;
+      const time_of_day = document.getElementById("time_of_day").value;
+      const watching_with = document.getElementById("watching_with").value;
+
+      const query = new URLSearchParams({ mood, time_of_day, watching_with }).toString();
+      window.location.href = `/movie-result/?${query}`;
+    });
+  </script>
+</body>
+</html>

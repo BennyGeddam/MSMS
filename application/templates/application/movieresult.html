@@ -1,0 +1,17 @@
+{% extends "application/base.html" %}
+{% block title %}Movie Result{% endblock %}
+{% block content %}
+<div class="container mt-5">
+  <div class="card shadow-lg p-4">
+    <h2 class="text-center mb-4 text-success">🎬 Your Movie Recommendation</h2>
+    <div class="bg-light p-3 rounded">
+      <p><strong>🎬 Title:</strong> {{ movie.title }}</p>
+      <p><strong>🎭 Genre:</strong> {{ movie.genre }}</p>
+      <p><strong>📜 Summary:</strong> {{ movie.summary }}</p>
+    </div>
+    <div class="text-center mt-4">
+      <a href="{% url 'movierecommendation' %}" class="btn btn-secondary">🔄 Try Another</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

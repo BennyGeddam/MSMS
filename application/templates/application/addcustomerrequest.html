@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% extends 'application/base.html' %}
+{% load static %}
+
+{% block title %}Customer Requests{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <h2 class="text-center mb-4 text-primary"> Your Medicine Requests</h2>
+
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <h5 class="card-title mb-3"> Submit a New Request</h5>
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit Request</button>
+      </form>
+    </div>
+  </div>
+
+  {% if customer_requests %}
+  <div class="table-responsive">
+    <table class="table table-hover table-striped align-middle shadow-sm border">
+      <thead class="table-light text-center">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Medicine Details</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody class="text-center">
+        {% for request in customer_requests %}
+        <tr>
+          <td>{{ request.id }}</td>
+          <td>{{ request.customer_name }}</td>
+          <td>{{ request.phone }}</td>
+          <td>{{ request.medicine_details }}</td>
+          <td>
+            {% if request.status %}
+              <span class="badge bg-success"> Completed</span>
+            {% else %}
+              <span class="badge bg-warning text-dark">Pending</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

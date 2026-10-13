@@ -1,0 +1,33 @@
+{% extends "application/base.html" %}
+{% block title %}Movie Recommendation{% endblock %}
+{% block content %}
+<div class="container mt-5">
+  <div class="card shadow-lg p-4">
+    <h2 class="text-center mb-4 text-primary">🎬 Get a Movie Recommendation</h2>
+    <form action="{% url 'movieresult' %}" method="GET">
+      <label for="mood">🎭 What's Your Mood?</label>
+      <select name="mood" id="mood" class="form-control mb-3" required>
+        <option value="happy">😊 Happy</option>
+        <option value="sad">😢 Sad</option>
+        <option value="neutral">😐 Neutral</option>
+      </select>
+
+      <label for="time_of_day">⏳ Time of Day?</label>
+      <select name="time_of_day" id="time_of_day" class="form-control mb-3" required>
+        <option value="morning">🌞 Morning</option>
+        <option value="afternoon">☀️ Afternoon</option>
+        <option value="evening">🌙 Evening</option>
+      </select>
+
+      <label for="watching_with">👥 Watching With?</label>
+      <select name="watching_with" id="watching_with" class="form-control mb-3" required>
+        <option value="alone">🙋 Alone</option>
+        <option value="family">👨‍👩‍👧‍👦 Family</option>
+        <option value="friends">🎉 Friends</option>
+      </select>
+
+      <button type="submit" class="btn btn-warning">🎬 Get Recommendation</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
